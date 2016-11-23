@@ -54,6 +54,7 @@ public class UnityEngine_ParticleSystemWrap
 		L.RegVar("rotationBySpeed", get_rotationBySpeed, null);
 		L.RegVar("externalForces", get_externalForces, null);
 		L.RegVar("collision", get_collision, null);
+		L.RegVar("trigger", get_trigger, null);
 		L.RegVar("subEmitters", get_subEmitters, null);
 		L.RegVar("textureSheetAnimation", get_textureSheetAnimation, null);
 		L.EndClass();
@@ -148,6 +149,16 @@ public class UnityEngine_ParticleSystemWrap
 				bool arg1 = LuaDLL.lua_toboolean(L, 3);
 				bool arg2 = LuaDLL.lua_toboolean(L, 4);
 				obj.Simulate(arg0, arg1, arg2);
+				return 0;
+			}
+			else if (count == 5 && TypeChecker.CheckTypes(L, 1, typeof(UnityEngine.ParticleSystem), typeof(float), typeof(bool), typeof(bool), typeof(bool)))
+			{
+				UnityEngine.ParticleSystem obj = (UnityEngine.ParticleSystem)ToLua.ToObject(L, 1);
+				float arg0 = (float)LuaDLL.lua_tonumber(L, 2);
+				bool arg1 = LuaDLL.lua_toboolean(L, 3);
+				bool arg2 = LuaDLL.lua_toboolean(L, 4);
+				bool arg3 = LuaDLL.lua_toboolean(L, 5);
+				obj.Simulate(arg0, arg1, arg2, arg3);
 				return 0;
 			}
 			else
@@ -1048,6 +1059,25 @@ public class UnityEngine_ParticleSystemWrap
 		catch(Exception e)
 		{
 			return LuaDLL.toluaL_exception(L, e, o == null ? "attempt to index collision on a nil value" : e.Message);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int get_trigger(IntPtr L)
+	{
+		object o = null;
+
+		try
+		{
+			o = ToLua.ToObject(L, 1);
+			UnityEngine.ParticleSystem obj = (UnityEngine.ParticleSystem)o;
+			UnityEngine.ParticleSystem.TriggerModule ret = obj.trigger;
+			ToLua.PushValue(L, ret);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e, o == null ? "attempt to index trigger on a nil value" : e.Message);
 		}
 	}
 

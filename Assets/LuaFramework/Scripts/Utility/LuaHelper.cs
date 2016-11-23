@@ -66,15 +66,6 @@ namespace LuaFramework
             return action;
         }
 
-        public static UIEventListener.VoidDelegate VoidDelegate(LuaFunction func)
-        {
-            UIEventListener.VoidDelegate action = (go) => 
-            {
-                func.Call(go);
-            };
-            return action;
-        }
-
         /// <summary>
         /// pbc/pblua函数回调
         /// </summary>

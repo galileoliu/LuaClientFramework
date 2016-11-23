@@ -283,7 +283,7 @@ namespace LuaFramework
         /// </summary>
         public static void AddClick(GameObject go, System.Object luafuc)
         {
-            UIEventListener.Get(go).onClick += delegate(GameObject o) 
+            //UIEventListener.Get(go).onClick += delegate(GameObject o) 
             {
                 LuaInterface.LuaFunction func = (LuaInterface.LuaFunction)luafuc;
                 func.Call();

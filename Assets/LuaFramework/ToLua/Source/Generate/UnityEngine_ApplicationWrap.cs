@@ -14,7 +14,10 @@ public class UnityEngine_ApplicationWrap
 		L.RegFunction("CaptureScreenshot", CaptureScreenshot);
 		L.RegFunction("HasProLicense", HasProLicense);
 		L.RegFunction("ExternalCall", ExternalCall);
+		L.RegFunction("RequestAdvertisingIdentifierAsync", RequestAdvertisingIdentifierAsync);
 		L.RegFunction("OpenURL", OpenURL);
+		L.RegFunction("GetStackTraceLogType", GetStackTraceLogType);
+		L.RegFunction("SetStackTraceLogType", SetStackTraceLogType);
 		L.RegFunction("RequestUserAuthorization", RequestUserAuthorization);
 		L.RegFunction("HasUserAuthorization", HasUserAuthorization);
 		L.RegVar("streamedBytes", get_streamedBytes, null);
@@ -43,7 +46,6 @@ public class UnityEngine_ApplicationWrap
 		L.RegVar("webSecurityHostUrl", get_webSecurityHostUrl, null);
 		L.RegVar("targetFrameRate", get_targetFrameRate, set_targetFrameRate);
 		L.RegVar("systemLanguage", get_systemLanguage, null);
-		L.RegVar("stackTraceLogType", get_stackTraceLogType, set_stackTraceLogType);
 		L.RegVar("backgroundLoadingPriority", get_backgroundLoadingPriority, set_backgroundLoadingPriority);
 		L.RegVar("internetReachability", get_internetReachability, null);
 		L.RegVar("genuine", get_genuine, null);
@@ -51,6 +53,7 @@ public class UnityEngine_ApplicationWrap
 		L.RegVar("isShowingSplashScreen", get_isShowingSplashScreen, null);
 		L.RegVar("logMessageReceived", get_logMessageReceived, set_logMessageReceived);
 		L.RegVar("logMessageReceivedThreaded", get_logMessageReceivedThreaded, set_logMessageReceivedThreaded);
+		L.RegFunction("AdvertisingIdentifierCallback", UnityEngine_Application_AdvertisingIdentifierCallback);
 		L.RegFunction("LogCallback", UnityEngine_Application_LogCallback);
 		L.EndStaticLibs();
 	}
@@ -214,6 +217,35 @@ public class UnityEngine_ApplicationWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int RequestAdvertisingIdentifierAsync(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			UnityEngine.Application.AdvertisingIdentifierCallback arg0 = null;
+			LuaTypes funcType1 = LuaDLL.lua_type(L, 1);
+
+			if (funcType1 != LuaTypes.LUA_TFUNCTION)
+			{
+				 arg0 = (UnityEngine.Application.AdvertisingIdentifierCallback)ToLua.CheckObject(L, 1, typeof(UnityEngine.Application.AdvertisingIdentifierCallback));
+			}
+			else
+			{
+				LuaFunction func = ToLua.ToLuaFunction(L, 1);
+				arg0 = DelegateFactory.CreateDelegate(typeof(UnityEngine.Application.AdvertisingIdentifierCallback), func) as UnityEngine.Application.AdvertisingIdentifierCallback;
+			}
+
+			bool o = UnityEngine.Application.RequestAdvertisingIdentifierAsync(arg0);
+			LuaDLL.lua_pushboolean(L, o);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int OpenURL(IntPtr L)
 	{
 		try
@@ -221,6 +253,40 @@ public class UnityEngine_ApplicationWrap
 			ToLua.CheckArgsCount(L, 1);
 			string arg0 = ToLua.CheckString(L, 1);
 			UnityEngine.Application.OpenURL(arg0);
+			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int GetStackTraceLogType(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 1);
+			UnityEngine.LogType arg0 = (UnityEngine.LogType)ToLua.CheckObject(L, 1, typeof(UnityEngine.LogType));
+			UnityEngine.StackTraceLogType o = UnityEngine.Application.GetStackTraceLogType(arg0);
+			ToLua.Push(L, o);
+			return 1;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int SetStackTraceLogType(IntPtr L)
+	{
+		try
+		{
+			ToLua.CheckArgsCount(L, 2);
+			UnityEngine.LogType arg0 = (UnityEngine.LogType)ToLua.CheckObject(L, 1, typeof(UnityEngine.LogType));
+			UnityEngine.StackTraceLogType arg1 = (UnityEngine.StackTraceLogType)ToLua.CheckObject(L, 2, typeof(UnityEngine.StackTraceLogType));
+			UnityEngine.Application.SetStackTraceLogType(arg0, arg1);
 			return 0;
 		}
 		catch(Exception e)
@@ -628,20 +694,6 @@ public class UnityEngine_ApplicationWrap
 	}
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int get_stackTraceLogType(IntPtr L)
-	{
-		try
-		{
-			ToLua.Push(L, UnityEngine.Application.stackTraceLogType);
-			return 1;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int get_backgroundLoadingPriority(IntPtr L)
 	{
 		try
@@ -747,21 +799,6 @@ public class UnityEngine_ApplicationWrap
 		{
 			int arg0 = (int)LuaDLL.luaL_checknumber(L, 2);
 			UnityEngine.Application.targetFrameRate = arg0;
-			return 0;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int set_stackTraceLogType(IntPtr L)
-	{
-		try
-		{
-			UnityEngine.StackTraceLogType arg0 = (UnityEngine.StackTraceLogType)ToLua.CheckObject(L, 2, typeof(UnityEngine.StackTraceLogType));
-			UnityEngine.Application.stackTraceLogType = arg0;
 			return 0;
 		}
 		catch(Exception e)
@@ -880,6 +917,22 @@ public class UnityEngine_ApplicationWrap
 			}
 
 			return 0;
+		}
+		catch(Exception e)
+		{
+			return LuaDLL.toluaL_exception(L, e);
+		}
+	}
+
+	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+	static int UnityEngine_Application_AdvertisingIdentifierCallback(IntPtr L)
+	{
+		try
+		{
+			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
+			Delegate arg1 = DelegateFactory.CreateDelegate(typeof(UnityEngine.Application.AdvertisingIdentifierCallback), func);
+			ToLua.Push(L, arg1);
+			return 1;
 		}
 		catch(Exception e)
 		{

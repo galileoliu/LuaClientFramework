@@ -13,7 +13,6 @@ public class LuaFramework_LuaHelperWrap
 		L.RegFunction("GetNetManager", GetNetManager);
 		L.RegFunction("GetSoundManager", GetSoundManager);
 		L.RegFunction("Action", Action);
-		L.RegFunction("VoidDelegate", VoidDelegate);
 		L.RegFunction("OnCallLuaFunc", OnCallLuaFunc);
 		L.RegFunction("OnJsonCallFunc", OnJsonCallFunc);
 		L.EndStaticLibs();
@@ -108,23 +107,6 @@ public class LuaFramework_LuaHelperWrap
 			ToLua.CheckArgsCount(L, 1);
 			LuaFunction arg0 = ToLua.CheckLuaFunction(L, 1);
 			System.Action o = LuaFramework.LuaHelper.Action(arg0);
-			ToLua.Push(L, o);
-			return 1;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int VoidDelegate(IntPtr L)
-	{
-		try
-		{
-			ToLua.CheckArgsCount(L, 1);
-			LuaFunction arg0 = ToLua.CheckLuaFunction(L, 1);
-			UIEventListener.VoidDelegate o = LuaFramework.LuaHelper.VoidDelegate(arg0);
 			ToLua.Push(L, o);
 			return 1;
 		}

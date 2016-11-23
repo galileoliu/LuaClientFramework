@@ -10,12 +10,6 @@ public static class LuaBinder
 		float t = Time.realtimeSinceStartup;
 		L.BeginModule(null);
 		DebuggerWrap.Register(L);
-		UIPanelWrap.Register(L);
-		UILabelWrap.Register(L);
-		UIGridWrap.Register(L);
-		UIRectWrap.Register(L);
-		UIWidgetWrap.Register(L);
-		UIWidgetContainerWrap.Register(L);
 		BaseWrap.Register(L);
 		L.BeginModule("UnityEngine");
 		UnityEngine_ComponentWrap.Register(L);
@@ -82,7 +76,6 @@ public static class LuaBinder
 		L.EndModule();
 		L.BeginModule("LuaFramework");
 		LuaFramework_UtilWrap.Register(L);
-		LuaFramework_WrapGridWrap.Register(L);
 		LuaFramework_AppConstWrap.Register(L);
 		LuaFramework_LuaHelperWrap.Register(L);
 		LuaFramework_ByteBufferWrap.Register(L);
@@ -98,7 +91,6 @@ public static class LuaBinder
 		L.EndModule();
 		L.BeginModule("System");
 		L.RegFunction("Action", System_Action);
-		L.RegFunction("Comparison_UnityEngine_Transform", System_Comparison_UnityEngine_Transform);
 		L.RegFunction("Action_NotiData", System_Action_NotiData);
 		L.EndModule();
 		L.EndModule();
@@ -128,22 +120,6 @@ public static class LuaBinder
 		{
 			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
 			Delegate arg1 = DelegateFactory.CreateDelegate(typeof(System.Action), func);
-			ToLua.Push(L, arg1);
-			return 1;
-		}
-		catch(Exception e)
-		{
-			return LuaDLL.toluaL_exception(L, e);
-		}
-	}
-
-	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-	static int System_Comparison_UnityEngine_Transform(IntPtr L)
-	{
-		try
-		{
-			LuaFunction func = ToLua.CheckLuaFunction(L, 1);
-			Delegate arg1 = DelegateFactory.CreateDelegate(typeof(System.Comparison<UnityEngine.Transform>), func);
 			ToLua.Push(L, arg1);
 			return 1;
 		}
