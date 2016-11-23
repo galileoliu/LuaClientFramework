@@ -1,0 +1,14 @@
+package down;
+
+message DownMsg {
+    optional LoginResponse loginResponse = 1;
+}
+
+message LoginResponse {
+    required PlayerInfo playerInfo = 1;
+}
+
+message PlayerInfo {
+    required int32 id = 1;
+	required string name = 2;
+}

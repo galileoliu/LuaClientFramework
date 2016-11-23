@@ -1,0 +1,15 @@
+package up;
+
+message UpMsg {
+    required int32 sequence = 1;
+    required int32 repeatFlag = 2;
+    optional LoginRequest loginRequest = 3;
+}
+
+message LoginRequest {
+    required PlayerInfo playerInfo = 1;
+}
+
+message PlayerInfo {
+	required string name = 1;
+}
